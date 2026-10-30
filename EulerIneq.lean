@@ -6,3 +6,5 @@ import EulerIneq.Ptolemy
 import EulerIneq.Kooi
 import EulerIneq.Extremal
 import EulerIneq.L14
+import EulerIneq.L13Blind
+import EulerIneq.L15Classical

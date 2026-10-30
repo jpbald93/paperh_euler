@@ -58,6 +58,49 @@ quartic, using the polynomial certificate of the Blundon development.
 `scripts/numerics_h3.py` is the numerical check for H3, and `scripts/certs_h3.py` checks the Pedoe and
 Kooi certificates with sympy.
 
+## Layer 13 (blind restatement)
+
+An independent writer, who saw only the plain-English statements of the paper and not this library,
+wrote the theorem statements in Lean on their own (`PaperHBlind.lean`, sha256 beginning
+`e257c271479a928f`). `EulerIneq/L13Blind.lean` (namespace `EulerIneq.Blind`) copies the writer's
+definitions and statements 1–27 verbatim. For each one it proves both directions against the library
+theorem: `rb_K` (library → blind) and `br_K` (blind → library).
+
+* All 27 blind statements are proved equivalent to the library in both directions (5 of them jointly).
+  The writer split two library theorems into parts: the excentre version of Euler's theorem (one
+  statement per excentre, 4–6) and Gerretsen's two bounds (11–12). Each part follows from the library
+  theorem, and together the parts give it back (`br_456`, `br_11_12`).
+* The agreement lemmas (`agree_area`, `agree_semiperimeter`, `agree_centroid`, `agree_equilateral`,
+  `agree_equilateral'`) show that the writer's area, semiperimeter, centroid and "equilateral" are the
+  library's, either by definition or by a trivial rewrite.
+* No difference in meaning was found.
+
+## Layer 14 (Mathlib-only restatements and witnesses)
+
+`EulerIneq/L14.lean` restates every main theorem with the library's own definitions unfolded (area as
+½·AB·AC·sin A, semiperimeter as (a+b+c)/2). The statements therefore mention only Mathlib notions.
+All 23 restatements (`l14_*`) are proved from the library. Four witness theorems (`l14w_*`) show on
+explicit triangles that the hypotheses can be satisfied and that the inequalities are not trivially
+equalities: the 3-4-5 triangle (R = 5/2, r = 1), a non-similar second triangle for Pedoe, a point
+other than the centroid for Leibniz, and four points in non-cyclic order for Ptolemy.
+
+## Layer 15 (classical statements)
+
+An independent writer also stated the classical theorems in textbook form, using only Mathlib and a few
+elementary definitions (`PaperHClassical.lean`, sha256 beginning `0ac73f94ec9efdb8`).
+`EulerIneq/L15Classical.lean` (namespace `EulerIneq.Classical`) copies these definitions verbatim and
+restates each assigned classical statement with its verbatim type as `cov_<name>`.
+
+* All 21 classical statements E1–E12 (Euler, the excentre version, the centre distances, the
+  fundamental quartic, Gerretsen, Kooi, Weitzenböck, Hadwiger–Finsler, the isoperimetric inequality,
+  Leibniz, Neuberg–Pedoe, with their equality cases) are proved from the library.
+* P1 (Ptolemy's inequality): the classical file has a slip. As written, the statement never mentions
+  the vector space, so Lean drops the Euclidean structure and reads it as a claim about an arbitrary
+  metric space, where it is false. `cov_P1_counterexample` gives four points of the plane with the
+  maximum metric where it fails, and `cov_P1_false` refutes the statement as written.
+  `cov_P1_part` proves the intended Euclidean statement.
+* NEW PROOFS: none were needed. Every classical statement follows directly from a library theorem.
+
 ## Build and check
 Mathlib is expected under `.lake/packages` (do not run `lake update`).
 ```
@@ -65,6 +108,6 @@ lake build                 # build the library
 bash gate.sh               # forbidden-token scan + build + axiom report for every declaration
 bash tests/tamper.sh       # gate must reject 9 planted defects
 ```
-Expected output: `PASS (60 declarations, standard axioms only)` and `ALL TAMPERING TESTS REJECTED`.
+Expected output: `PASS (243 declarations, standard axioms only)` and `ALL TAMPERING TESTS REJECTED`.
 `scripts/numerics.py` (mpmath) is the numerical sanity check of every statement.
 `scripts/ig_cofactor.py` derives the cofactor used for `IG²`.
