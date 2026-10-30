@@ -1,6 +1,6 @@
 # Euler's theorem and the inequalities around it — Lean 4 / Mathlib
 
-**Paper:** J. Bald, *Classical triangle inequalities and the Fermat–Napoleon configuration in Lean 4* (2026). Companion repositories: https://github.com/jpbald93/paperh_fermat, https://github.com/jpbald93/paperh_mordell.
+**Paper:** J. Bald, *Classical triangle inequalities and the Fermat–Napoleon configuration in Lean 4* (2026), Zenodo, https://doi.org/10.5281/zenodo.23813097. Companion repositories: https://github.com/jpbald93/paperh_fermat, https://github.com/jpbald93/paperh_mordell.
 
 **Toolchain:** Lean `v4.33.1`, Mathlib `0df444a360eaa60ab8c11dca51a86af692955474` (see `lake-manifest.json`).
 **Check:** `lake build && bash gate.sh`, then `bash tests/tamper.sh`. **Licence:** Apache-2.0.
